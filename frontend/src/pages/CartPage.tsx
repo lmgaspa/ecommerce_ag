@@ -4,7 +4,6 @@ import CartTable from '../components/CartTable';
 import CouponInput from '../components/CouponInput';
 import CartSummary from '../components/CartSummary';
 import { useCart } from '../hooks/useCart';
-import { BUTTON_COUNT_CART_STYLES } from '../styles/buttonCountCart';
 
 const CartPage = () => {
   const { cartItems, subtotal, updateQuantity } = useCart();
@@ -44,7 +43,7 @@ const CartPage = () => {
           </div>
           <button
             onClick={() => navigate('/books')}
-            className={`${BUTTON_COUNT_CART_STYLES.base} ${BUTTON_COUNT_CART_STYLES.accent}`}
+            className={`px-6 py-2 bg-primary text-background rounded-md shadow-md transition hover:bg-secondary`}
           >
             Continuar Comprando
           </button>

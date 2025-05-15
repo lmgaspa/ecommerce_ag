@@ -21,7 +21,7 @@ const CartTable: React.FC<CartTableProps> = ({ items, onQuantityChange }) => {
       </thead>
       <tbody>
         {items.map((item) => (
-          <tr key={item.id} className="border-b border-muted">
+          <tr key={item.id} className="border-b secondary">
             {/* Coluna do Produto */}
             <td className="p-4 flex items-center gap-4">
               <img
@@ -41,7 +41,7 @@ const CartTable: React.FC<CartTableProps> = ({ items, onQuantityChange }) => {
             <td className="p-4">
               <div className="flex items-center justify-center gap-2">
                 <button
-                  className="w-10 h-10 bg-primary text-background rounded-md shadow-sm flex items-center justify-center text-lg transition hover:bg-accent"
+                  className="w-10 h-10 bg-primary text-background rounded-md shadow-sm flex items-center justify-center text-lg transition hover:bg-secondary"
                   onClick={() => onQuantityChange(item.id, -1)}
                   disabled={item.quantity <= 1}
                   style={{ lineHeight: 1 }}
@@ -55,7 +55,7 @@ const CartTable: React.FC<CartTableProps> = ({ items, onQuantityChange }) => {
                   {item.quantity}
                 </span>
                 <button
-                  className="w-10 h-10 bg-primary text-background rounded-md shadow-sm flex items-center justify-center text-lg transition hover:bg-accent"
+                  className="w-10 h-10 bg-primary text-background rounded-md shadow-sm flex items-center justify-center text-lg transition hover:bg-secondary"
                   onClick={() => onQuantityChange(item.id, 1)}
                   style={{ lineHeight: 1 }}
                 >

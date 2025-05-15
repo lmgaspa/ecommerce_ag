@@ -16,7 +16,7 @@ const CouponInput: React.FC<CouponInputProps> = ({ value, onChange, onApply }) =
         onChange={(e) => onChange(e.target.value)}
         className="border p-2 w-64 text-text-primary"
       />
-      <button onClick={onApply} className="bg-accent text-background px-6 py-2 rounded-md shadow-md">
+      <button onClick={onApply} className="px-6 py-2 bg-primary text-background rounded-md shadow-md transition hover:bg-secondary">
         Aplicar Cupom
       </button>
     </div>
