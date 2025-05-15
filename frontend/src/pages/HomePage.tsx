@@ -10,7 +10,7 @@ function HomePage() {
       <ContentBlock 
         title="Agenor Gasparetto"
         imageUrl="/images/agenor.webp"
-        description="Possui graduação em Ciências Sociais pela Pontifícia Universidade Católica do Rio Grande do Sul (1982) e mestrado em Sociologia Rural pela Universidade Federal do Rio Grande do Sul (1985)."
+        description="Possui graduação em Ciências Sociais pela Pontifícia Universidade Católica do Rio Grande do Sul(1982) e mestrado em Sociologia Rural pela Universidade Federal do Rio Grande do Sul(1985). Atualmente é Professor Adjunto da Universidade Estadual de Santa Cruz, Empresário do Sócio Estatística Pesquisa Consultoria Ltda e Sócio Diretor da Via Litterarum Editora. Atuando principalmente nos seguintes temas: mobilidade social lavoura cacaueira Bahia."
         isAuthor
       />
 
