@@ -1,26 +1,20 @@
+import React from 'react';
+
 interface CartSummaryProps {
-  total: number;
+  subtotal: number;
+  discount: number;
+  onCheckout: () => void;
 }
 
-const CartSummary: React.FC<CartSummaryProps> = ({ total }) => {
+const CartSummary: React.FC<CartSummaryProps> = ({ subtotal, discount, onCheckout }) => {
+  const total = subtotal - discount;
+
   return (
-    <div className="bg-background rounded-lg shadow-lg p-8">
-      <h2 className="text-2xl font-bold text-primary mb-4">Total no Carrinho</h2>
-      <div className="border-t border-b py-4 mb-4">
-        <div className="flex justify-between mb-2">
-          <span>Subtotal</span>
-          <span className="font-semibold text-secondary">R${total.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between mb-2">
-          <span>Entrega</span>
-          <span className="text-sm text-gray-500">Calcular entrega</span>
-        </div>
-        <div className="flex justify-between mb-2">
-          <span>Total</span>
-          <span className="font-bold text-primary">R${total.toFixed(2)}</span>
-        </div>
-      </div>
-      <button className="w-full bg-primary text-white py-3 rounded-lg font-bold">
+    <div>
+      <p className="text-text-primary">Subtotal: R${subtotal.toFixed(2)}</p>
+      <p className="text-text-primary">Desconto: -R${discount.toFixed(2)}</p>
+      <p className="text-text-primary">Total: R${total.toFixed(2)}</p>
+      <button onClick={onCheckout} className="bg-primary text-background px-4 py-2 rounded-md mt-4 shadow-md">
         Continuar para Finalização
       </button>
     </div>

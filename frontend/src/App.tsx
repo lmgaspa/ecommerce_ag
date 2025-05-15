@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import BookPage from './pages/BookPage';
+import CartPage from './pages/CartPage';
+import BooksListPage from './pages/BooksListPage';
 
 function ScrollToTop() {
   const location = useLocation();
@@ -23,7 +25,9 @@ function App() {
       <main className="min-h-screen bg-background py-8">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/books" element={<BooksListPage />} />
           <Route path="/books/:id" element={<BookPage />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </main>
       <Footer />

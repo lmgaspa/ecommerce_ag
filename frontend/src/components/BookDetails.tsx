@@ -6,19 +6,30 @@ import BookAuthor from './BookAuthor';
 import AdditionalInfo from './AdditionalInfo';
 import RelatedBooks from './RelatedBooks';
 import AuthorInfo from './AuthorInfo';
+import type { CartItem } from '../context/CartTypes';
+import ButtonCountCart from './ButtonCountCart';
 
 interface BookDetailsProps extends Book {
   onAddToCart?: (item: { id: string; title: string; imageUrl: string; price: string; quantity: number }) => void;
 }
 
-const BookDetails = ({ title, imageUrl, price, description, additionalInfo, author, relatedBooks }: BookDetailsProps) => {
+const BookDetails = ({ id, title, imageUrl, price, description, additionalInfo, author, relatedBooks }: BookDetailsProps) => {
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    const cartItem = { id: title, title, imageUrl, price, quantity };
-    const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    localStorage.setItem('cart', JSON.stringify([...currentCart, cartItem]));
+    const cartItem: CartItem = { id, title, imageUrl, price, quantity };
+    const currentCart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    const existingItem = currentCart.find((item) => item.id === cartItem.id);
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      currentCart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(currentCart));
     alert('Item adicionado ao carrinho!');
     navigate('/cart');
   };
@@ -39,10 +50,14 @@ const BookDetails = ({ title, imageUrl, price, description, additionalInfo, auth
           <BookAuthor author={author} />
 
           <div className="flex items-center gap-4 mb-8">
-            <button className="px-4 py-2 bg-gray-200" onClick={handleDecrease}>-</button>
-            <span className="text-lg">{quantity}</span>
-            <button className="px-4 py-2 bg-gray-200" onClick={handleIncrease}>+</button>
-            <button onClick={handleAddToCart} className="px-6 py-2 bg-green-600 text-white rounded-md">Adicionar ao Carrinho</button>
+            <ButtonCountCart
+              quantity={quantity}
+              onDecrease={handleDecrease}
+              onIncrease={handleIncrease}
+            />
+            <button onClick={handleAddToCart} className="px-6 py-2 bg-green-600 text-white rounded-md shadow-md transition hover:bg-green-700">
+              Adicionar ao Carrinho
+            </button>
           </div>
         </div>
       </div>

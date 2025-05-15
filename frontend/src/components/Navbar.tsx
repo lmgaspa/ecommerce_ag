@@ -11,6 +11,9 @@ const Navbar = () => {
         <Link to="/" className="text-lg font-semibold text-background hover:text-secondary transition">
           Home
         </Link>
+        <Link to="/books" className="text-lg font-semibold text-background hover:text-secondary transition">
+          Livros
+        </Link>
         <Link to="/cart" className="text-lg font-semibold text-background hover:text-secondary transition">
           <FaShoppingCart size={28} />
         </Link>

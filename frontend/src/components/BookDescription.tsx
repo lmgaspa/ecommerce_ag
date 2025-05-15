@@ -4,10 +4,13 @@ interface BookDescriptionProps {
   description: string;
 }
 
-const BookDescription: React.FC<BookDescriptionProps> = ({ description }) => (
-  <div className="mb-8">
-    <p className="text-lg text-text-secondary leading-relaxed">{description}</p>
-  </div>
-);
+const BookDescription: React.FC<BookDescriptionProps> = ({ description }) => {
+  return (
+    <div
+      className="text-text-secondary mb-4"
+      dangerouslySetInnerHTML={{ __html: description }}
+    />
+  );
+};
 
 export default BookDescription;
