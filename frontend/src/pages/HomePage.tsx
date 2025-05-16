@@ -1,5 +1,5 @@
-import Container from '../components/Container';
-import ContentBlock from '../components/ContentBlock';
+import Container from '../components/common/Container';
+import ContentBlock from '../components/common/ContentBlock';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage() {

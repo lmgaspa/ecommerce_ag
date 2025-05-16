@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import CartTable from "../components/CartTable";
-import CouponInput from "../components/CouponInput";
-import CartSummary from "../components/CartSummary";
+import CartTable from "../components/cart/CartTable";
+import CouponInput from "../components/cart/CouponInput";
+import CartSummary from "../components/cart/CartSummary";
 
 interface CartItem {
   id: string;

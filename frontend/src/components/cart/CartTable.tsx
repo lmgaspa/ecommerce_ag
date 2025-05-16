@@ -1,7 +1,7 @@
 import React from 'react';
-import type { CartItem } from '../context/CartTypes';
+import type { CartItem } from '../../context/CartTypes';
 import ButtonCountCart from './ButtonCountCart';
-import { formatPrice } from '../utils/formatPrice';
+import { formatPrice } from '../../utils/formatPrice';
 
 interface CartTableProps {
   items: CartItem[];
@@ -42,7 +42,7 @@ const CartTable: React.FC<CartTableProps> = ({ items, onQuantityChange, onRemove
                 quantity={item.quantity}
                 onDecrease={() => onQuantityChange(item.id, -1)}
                 onIncrease={() => onQuantityChange(item.id, 1)}
-                allowZero={true}  // Permite zerar no carrinho
+                allowZero={true}
               />
             </td>
 
@@ -52,7 +52,7 @@ const CartTable: React.FC<CartTableProps> = ({ items, onQuantityChange, onRemove
 
             <td className="p-4">
               <button
-                className="text-error"
+                className="text-error hover:text-red-400 transition"
                 onClick={() => onRemoveItem(item.id)}
               >
                 Remover

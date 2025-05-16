@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Book } from '../data/books';
+import type { Book } from '../../data/books';
 import BookDescription from './BookDescription';
 import BookAuthor from './BookAuthor';
 import AdditionalInfo from './AdditionalInfo';
 import RelatedBooks from './RelatedBooks';
 import AuthorInfo from './AuthorInfo';
-import type { CartItem } from '../context/CartTypes';
-import ButtonCountCart from './ButtonCountCart';
+import type { CartItem } from '../../context/CartTypes';
+import ButtonCountCart from '../cart/ButtonCountCart';
 
 interface BookDetailsProps extends Book {
   onAddToCart?: (item: { id: string; title: string; imageUrl: string; price: string; quantity: number }) => void;
@@ -18,7 +18,7 @@ const BookDetails = ({ id, title, imageUrl, price, description, additionalInfo, 
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    const cartItem: CartItem = { id, title, imageUrl, price, quantity };
+    const cartItem: CartItem = { id, title, imageUrl, price: Number(price), quantity };
     const currentCart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
     const existingItem = currentCart.find((item) => item.id === cartItem.id);
