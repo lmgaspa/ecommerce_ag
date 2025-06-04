@@ -57,8 +57,6 @@ const CartPage = () => {
       .map((item) => {
         if (item.id === itemId) {
           const newQuantity = item.quantity + amount;
-
-          // Se a quantidade for 0, remove o item
           if (newQuantity <= 0) {
             return null;
           }
