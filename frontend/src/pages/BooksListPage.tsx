@@ -1,28 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Book } from '../data/books';
-import type { CartItem } from '../context/CartTypes';
 import BookDescription from '../components/book/BookDescription';
 import BookAuthor from '../components/book/BookAuthor';
 import { books } from '../data/books';
+import { useCart } from '../hooks/useCart';
 
 const BooksListPage = () => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState<{ [id: string]: number }>({});
+  const { addToCart } = useCart();
 
   const handleAddToCart = (book: Book) => {
-    const cartItem: CartItem = { ...book, price: Number(book.price), quantity: quantity[book.id] || 1 };
-    const currentCart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
-
-    const existingItem = currentCart.find((item) => item.id === cartItem.id);
-
-    if (existingItem) {
-      existingItem.quantity += cartItem.quantity;
-    } else {
-      currentCart.push(cartItem);
-    }
-
-    localStorage.setItem('cart', JSON.stringify(currentCart));
+    addToCart(book, quantity[book.id] || 1);
     alert('Item adicionado ao carrinho!');
     navigate('/cart');
   };
@@ -52,7 +42,9 @@ const BooksListPage = () => {
               <button className="px-4 py-2 bg-gray-200" onClick={() => handleDecrease(book.id)}>-</button>
               <span className="text-lg">{quantity[book.id] || 1}</span>
               <button className="px-4 py-2 bg-gray-200" onClick={() => handleIncrease(book.id)}>+</button>
-              <button onClick={() => handleAddToCart(book)} className="px-6 py-2 bg-green-600 text-white rounded-md shadow-md transition hover:bg-green-700">Adicionar ao Carrinho</button>
+              <button onClick={() => handleAddToCart(book)} className="px-6 py-2 bg-green-600 text-white rounded-md shadow-md transition hover:bg-green-700">
+                Adicionar ao Carrinho
+              </button>
             </div>
             <BookDescription description={book.description} />
             <BookAuthor author={book.author} />

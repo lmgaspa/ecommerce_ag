@@ -6,30 +6,40 @@ import BookAuthor from './BookAuthor';
 import AdditionalInfo from './AdditionalInfo';
 import RelatedBooks from './RelatedBooks';
 import AuthorInfo from './AuthorInfo';
-import type { CartItem } from '../../context/CartTypes';
 import ButtonCountCart from '../cart/ButtonCountCart';
+import { useCart } from '../../hooks/useCart';
 
-interface BookDetailsProps extends Book {
-  onAddToCart?: (item: { id: string; title: string; imageUrl: string; price: string; quantity: number }) => void;
-}
+type BookDetailsProps = Book;
 
-const BookDetails = ({ id, title, imageUrl, price, description, additionalInfo, author, relatedBooks }: BookDetailsProps) => {
+const BookDetails = ({
+  id,
+  title,
+  imageUrl,
+  price,
+  description,
+  additionalInfo,
+  author,
+  relatedBooks,
+}: BookDetailsProps) => {
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    const cartItem: CartItem = { id, title, imageUrl, price: Number(price), quantity };
-    const currentCart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
-
-    const existingItem = currentCart.find((item) => item.id === cartItem.id);
-
-    if (existingItem) {
-      existingItem.quantity += quantity;
-    } else {
-      currentCart.push(cartItem);
-    }
-
-    localStorage.setItem('cart', JSON.stringify(currentCart));
+    addToCart(
+      {
+        id,
+        title,
+        imageUrl,
+        price,
+        description,
+        author,
+        additionalInfo,
+        category: '',
+        relatedBooks,
+      },
+      quantity
+    );
     alert('Item adicionado ao carrinho!');
     navigate('/cart');
   };
