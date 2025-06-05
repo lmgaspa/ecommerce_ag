@@ -100,44 +100,51 @@ const CartPage = () => {
   };
 
   return (
-    <div className="container mx-auto my-16 px-4 bg-background rounded-md shadow-lg p-8">
-      <h1 className="text-4xl font-bold mb-8 text-text-primary">
-        Carrinho de Compras
-      </h1>
-      {cartItems.length === 0 ? (
-        <p className="text-text-secondary">Seu carrinho está vazio.</p>
-      ) : (
-        <>
-          <CartTable
-            items={cartItems}
-            onQuantityChange={updateQuantity}
-            onRemoveItem={removeItem}
-          />
-          <div className="flex justify-between mb-8">
+  <div className="container mx-auto mt-0 pt-2 mb-8 px-4 bg-background rounded-md shadow-lg p-6 sm:p-8">
+    <h1 className="text-4xl font-bold mb-8 text-text-primary">
+      Carrinho de Compras
+    </h1>
+    {cartItems.length === 0 ? (
+      <p className="text-text-secondary">Seu carrinho está vazio.</p>
+    ) : (
+      <>
+        <CartTable
+          items={cartItems}
+          onQuantityChange={updateQuantity}
+          onRemoveItem={removeItem}
+        />
+
+        {/* Layout responsivo aqui */}
+        <div className="flex flex-col lg:flex-row gap-4 mb-8">
+          <div className="w-full lg:w-1/2">
             <CouponInput
               value={coupon}
               onChange={setCoupon}
               onApply={handleApplyCoupon}
             />
+          </div>
+          <div className="w-full lg:w-1/2">
             <CartSummary
               subtotal={subtotal}
               discount={discount}
               onCheckout={handleCheckout}
             />
           </div>
-          <button
-            onClick={() => navigate("/books")}
-            className="px-6 py-2 bg-primary text-background rounded-md shadow-md transition hover:bg-secondary"
-          >
-            Continuar Comprando
-          </button>
-        </>
-      )}
-      <div className="text-right text-xl font-bold mt-4">
-        Total: R$ {(subtotal - discount).toFixed(2).replace(".", ",")}
-      </div>
+        </div>
+
+        <button
+          onClick={() => navigate("/books")}
+          className="w-full sm:w-auto px-6 py-2 bg-primary text-background rounded-md shadow-md transition hover:bg-secondary"
+        >
+          Continuar Comprando
+        </button>
+      </>
+    )}
+    <div className="text-right text-xl font-bold mt-4">
+      Total: R$ {(subtotal - discount).toFixed(2).replace(".", ",")}
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default CartPage;

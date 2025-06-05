@@ -29,11 +29,11 @@ const CheckoutPage = () => {
   });
 
   useEffect(() => {
-    const cart = getCart();
-    setCartItems(cart);
-    const sum = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    setTotal(sum);
-  }, [getCart]);
+  const cart = getCart();
+  setCartItems(cart);
+  const sum = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  setTotal(sum);
+}, []);
 
   const updateQuantity = (id: string, delta: number) => {
     const updated = cartItems.map(item =>

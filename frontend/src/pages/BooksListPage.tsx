@@ -30,7 +30,7 @@ const BooksListPage = () => {
   };
 
   return (
-    <div className="container mx-auto my-16 px-4">
+    <div className="container mx-auto mt-2 mb-8 px-4">
       <h1 className="text-4xl font-bold text-primary mb-8">Livros</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {books.map((book) => (
