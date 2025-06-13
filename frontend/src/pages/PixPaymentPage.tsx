@@ -41,7 +41,7 @@ const PixPaymentPage = () => {
       <div className="flex justify-center">
         <button
           onClick={() => navigate('/books')}
-          className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400"
+          className="px-6 py-2 bg-green-600 text-white rounded-md shadow-md transition hover:bg-green-700"
         >
           Continuar comprando
         </button>
