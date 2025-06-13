@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import QRCode from "react-qr-code";
 import { formatPrice } from "../utils/formatPrice";
 import { generatePixPayload } from "../utils/pixPayload";
 import type { CartItem } from "../context/CartTypes";
@@ -54,6 +53,31 @@ const CheckoutForm = ({
     amount: parseFloat(totalComFrete),
   });
 
+  const handlePixCheckout = () => {
+    const requiredFields: (keyof typeof form)[] = [
+      "firstName",
+      "lastName",
+      "cep",
+      "address",
+      "number",
+      "district",
+      "city",
+      "state",
+      "email",
+    ];
+
+    const missingField = requiredFields.find(
+      (field) => !form[field].trim()
+    );
+
+    if (missingField) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    navigate("/pix", { state: { form, cartItems, total, shipping, payload } });
+  };
+
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
@@ -101,44 +125,18 @@ const CheckoutForm = ({
           <h2 className="text-lg font-bold">SEU PEDIDO</h2>
 
           {cartItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between gap-4 border-b pb-2"
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.title}
-                className="w-12 h-16 object-cover rounded shadow"
-              />
+            <div key={item.id} className="flex items-center justify-between gap-4 border-b pb-2">
+              <img src={item.imageUrl} alt={item.title} className="w-12 h-16 object-cover rounded shadow" />
               <div className="flex-1">
-                <p className="text-sm font-semibold text-text-primary">
-                  {item.title}
-                </p>
+                <p className="text-sm font-semibold text-text-primary">{item.title}</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <button
-                    className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300"
-                    onClick={() => updateQuantity(item.id, -1)}
-                  >
-                    -
-                  </button>
+                  <button className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300" onClick={() => updateQuantity(item.id, -1)}>-</button>
                   <span className="text-sm">{item.quantity}</span>
-                  <button
-                    className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300"
-                    onClick={() => updateQuantity(item.id, 1)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="ml-2 text-red-500 text-xs hover:underline"
-                    onClick={() => removeItem(item.id)}
-                  >
-                    Remover
-                  </button>
+                  <button className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300" onClick={() => updateQuantity(item.id, 1)}>+</button>
+                  <button className="ml-2 text-red-500 text-xs hover:underline" onClick={() => removeItem(item.id)}>Remover</button>
                 </div>
               </div>
-              <span className="text-sm font-medium">
-                {formatPrice(item.price * item.quantity)}
-              </span>
+              <span className="text-sm font-medium">{formatPrice(item.price * item.quantity)}</span>
             </div>
           ))}
 
@@ -152,13 +150,15 @@ const CheckoutForm = ({
             <span>{formatPrice(total + shipping)}</span>
           </div>
 
-          <div className="mt-4 text-center flex flex-col items-center">
-            <h3 className="text-sm font-bold mb-2">Pagamento via PIX</h3>
-            <QRCode value={payload} size={180} />
-          </div>
+          <p className="text-xs text-center text-red-600 mt-4">
+            Aceitamos apenas Pix como forma de pagamento.
+          </p>
 
-          <button className="bg-red-600 text-white py-2 w-full mt-4 rounded hover:bg-red-500 transition">
-            Finalizar pedido
+          <button
+            onClick={handlePixCheckout}
+            className="bg-red-600 text-white py-2 w-full mt-4 rounded hover:bg-red-500 transition"
+          >
+            Finalizar Pagamento por Pix
           </button>
         </div>
       </div>

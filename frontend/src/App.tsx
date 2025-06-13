@@ -7,6 +7,7 @@ import BookPage from './pages/BookPage';
 import CartPage from './pages/CartPage';
 import BooksListPage from './pages/BooksListPage';
 import CheckoutPage from './pages/CheckoutPage';
+import PixPaymentPage from './pages/PixPaymentPage';
 
 function ScrollToTop() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/books/:id" element={<BookPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/pix" element={<PixPaymentPage />} />
         </Routes>
       </main>
       <Footer />
