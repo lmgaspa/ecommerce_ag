@@ -1,15 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { formatCep, formatCpf, formatCelular } from "../utils/masks";
 import CheckoutForm from "./CheckoutForm";
 import type { CartItem } from "../context/CartTypes";
-
-const weightByBookKg: Record<string, number> = {
-  extase: 0.3,
-  regressantes: 0.3,
-  sempre: 0.3,
-};
+import { calcularFreteComBaseEmCarrinho } from "../utils/freteUtils";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -45,41 +40,40 @@ const CheckoutPage = () => {
 
   const onNavigateBack = () => navigate("/");
 
+  // Carrega carrinho e calcula subtotal
   useEffect(() => {
-  const cart = getCart();
-  setCartItems(cart);
-  const sum = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  setTotal(sum);
-}, []);
+    const cart = getCart();
+    setCartItems(cart);
+    const sum = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setTotal(sum);
+  }, []);
 
-  useEffect(() => {
-    const totalWeight = cartItems.reduce((acc, item) => {
-      const unitWeight = weightByBookKg[item.id] || 0.3;
-      return acc + unitWeight * item.quantity;
-    }, 0);
-
+  // Frete só recalcula com cpf e cep limpos
+  const cpfCepInfo = useMemo(() => {
+    const cpf = form.cpf.replace(/\D/g, "");
     const cep = form.cep.replace(/\D/g, "");
-    const cpfNumeros = form.cpf.replace(/\D/g, "");
+    return { cpf, cep };
+  }, [form.cpf, form.cep]);
 
-    if (cpfNumeros === "00000000000") {
+  useEffect(() => {
+    if (
+      cpfCepInfo.cpf === "00000000000" ||
+      cpfCepInfo.cep.length !== 8 ||
+      cartItems.length === 0
+    ) {
       setShipping(0);
       return;
     }
 
-    if (cep.length === 8 && totalWeight > 0) {
-      fetch("/api/frete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cep, weight: totalWeight }),
-      })
-        .then((res) => res.json())
-        .then((data) => setShipping(data.valor || 0))
-        .catch(() => setShipping(0));
-    } else {
-      setShipping(0);
-    }
-  }, [form.cep, form.cpf, cartItems]);
+    calcularFreteComBaseEmCarrinho(
+      { cpf: cpfCepInfo.cpf, cep: cpfCepInfo.cep },
+      cartItems
+    )
+      .then(setShipping)
+      .catch(() => setShipping(0));
+  }, [cpfCepInfo, cartItems]);
 
+  // Salva dados no localStorage
   useEffect(() => {
     localStorage.setItem("checkoutForm", JSON.stringify(form));
   }, [form]);
